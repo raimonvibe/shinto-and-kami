@@ -9,12 +9,20 @@ const path = require('path');
 const rootDir = path.join(__dirname, '..');
 const rootFavicon = path.join(rootDir, 'favicon.ico');
 const appFavicon = path.join(rootDir, 'app', 'favicon.ico');
-const rootSocial = path.join(rootDir, 'social.jpg');
 const publicDir = path.join(rootDir, 'public');
+const publicFavicon = path.join(publicDir, 'favicon.ico');
+const rootSocial = path.join(rootDir, 'social.jpg');
 const publicSocial = path.join(publicDir, 'social.jpg');
+
+function copyFaviconToPublic(src) {
+  fs.mkdirSync(publicDir, { recursive: true });
+  fs.copyFileSync(src, publicFavicon);
+  console.log('Copied favicon.ico to public/favicon.ico (served at /favicon.ico)');
+}
 
 if (fs.existsSync(rootFavicon)) {
   fs.copyFileSync(rootFavicon, appFavicon);
+  copyFaviconToPublic(rootFavicon);
   console.log('Copied root favicon.ico to app/favicon.ico');
 } else if (!fs.existsSync(appFavicon)) {
   // Create minimal 16x16 ICO (solid deep indigo) so Next.js has a favicon
@@ -62,7 +70,9 @@ if (fs.existsSync(rootFavicon)) {
   fs.mkdirSync(path.dirname(appFavicon), { recursive: true });
   fs.writeFileSync(appFavicon, ico);
   fs.writeFileSync(rootFavicon, ico);
-  console.log('Created favicon.ico in project root and app/');
+  fs.mkdirSync(publicDir, { recursive: true });
+  fs.writeFileSync(publicFavicon, ico);
+  console.log('Created favicon.ico in project root, app/, and public/');
 }
 
 // Copy social.jpg from root to public so /social.jpg is available for OG and home screen
