@@ -40,6 +40,7 @@ export const metadata: Metadata = {
     images: ['/social.jpg'],
   },
   icons: {
+    icon: { url: '/favicon.ico', type: 'image/x-icon', sizes: '32x32' },
     apple: '/social.jpg',
   },
   appleWebApp: {
@@ -56,9 +57,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${notoSerif.variable} ${inter.variable}`}>
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="32x32" type="image/x-icon" />
-      </head>
       <body className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>
