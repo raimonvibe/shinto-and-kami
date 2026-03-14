@@ -40,7 +40,6 @@ export const metadata: Metadata = {
     images: ['/social.jpg'],
   },
   icons: {
-    icon: { url: '/favicon.ico', type: 'image/x-icon', sizes: '32x32' },
     apple: '/social.jpg',
   },
   appleWebApp: {

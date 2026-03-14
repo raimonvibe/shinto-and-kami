@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 /**
- * Copies root favicon.ico to public/favicon.ico only (no app/ — avoids Next.js conflict).
+ * Copies root favicon.ico to app/favicon.ico (Next.js App Router serves it automatically).
+ * Does NOT use public/favicon.ico to avoid conflict and Vercel 500.
  * Copies root social.jpg to public/social.jpg for OG and home screen.
  */
 const fs = require('fs');
@@ -8,23 +9,17 @@ const path = require('path');
 
 const rootDir = path.join(__dirname, '..');
 const rootFavicon = path.join(rootDir, 'favicon.ico');
+const appFavicon = path.join(rootDir, 'app', 'favicon.ico');
 const publicDir = path.join(rootDir, 'public');
-const publicFavicon = path.join(publicDir, 'favicon.ico');
 const rootSocial = path.join(rootDir, 'social.jpg');
 const publicSocial = path.join(publicDir, 'social.jpg');
 
-function copyFaviconToPublic(src) {
-  fs.mkdirSync(publicDir, { recursive: true });
-  fs.copyFileSync(src, publicFavicon);
-  console.log('Copied favicon.ico to public/ (served at /favicon.ico)');
-}
-
 if (fs.existsSync(rootFavicon)) {
-  copyFaviconToPublic(rootFavicon);
-} else if (fs.existsSync(publicFavicon)) {
-  console.log('Using existing public/favicon.ico');
-} else {
-  // Create minimal 16x16 ICO so /favicon.ico is available
+  fs.mkdirSync(path.dirname(appFavicon), { recursive: true });
+  fs.copyFileSync(rootFavicon, appFavicon);
+  console.log('Copied root favicon.ico to app/favicon.ico (Next.js will serve it)');
+} else if (!fs.existsSync(appFavicon)) {
+  // Create minimal 16x16 ICO
   const size = 16;
   const imageBytes = 40 + size * size * 4 + Math.ceil((size * size) / 8);
   const header = Buffer.alloc(6 + 16);
@@ -66,13 +61,20 @@ if (fs.existsSync(rootFavicon)) {
   const imageData = Buffer.concat([dib, pixels, andMask]);
   const ico = Buffer.concat([header, imageData]);
 
-  fs.mkdirSync(publicDir, { recursive: true });
-  fs.writeFileSync(publicFavicon, ico);
+  fs.mkdirSync(path.dirname(appFavicon), { recursive: true });
+  fs.writeFileSync(appFavicon, ico);
   fs.writeFileSync(rootFavicon, ico);
-  console.log('Created favicon.ico in project root and public/');
+  console.log('Created favicon.ico in app/ and project root');
 }
 
-// Copy social.jpg from root to public so /social.jpg is available for OG and home screen
+// Remove public/favicon.ico if present to avoid conflict with app/favicon.ico
+const publicFavicon = path.join(publicDir, 'favicon.ico');
+if (fs.existsSync(publicFavicon)) {
+  fs.unlinkSync(publicFavicon);
+  console.log('Removed public/favicon.ico (using app/favicon.ico only)');
+}
+
+// Copy social.jpg from root to public for OG and home screen
 if (fs.existsSync(rootSocial)) {
   fs.mkdirSync(publicDir, { recursive: true });
   fs.copyFileSync(rootSocial, publicSocial);
