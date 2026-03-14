@@ -1,6 +1,6 @@
 # ⛩️ Shinto and Kami
 
-**Live Website:** https://your-vercel-link.vercel.app
+**Live Website:** [https://your-vercel-link.vercel.app](https://shinto-and-kami.vercel.app/)
 
 ------------------------------------------------------------------------
 
