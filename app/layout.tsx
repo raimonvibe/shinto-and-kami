@@ -17,10 +17,36 @@ const inter = Inter({
   display: 'swap',
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || ''
+
 export const metadata: Metadata = {
   title: 'Shinto: The Way of the Kami',
   description:
     'A living tradition of harmony with nature and spirit. Explore Japan\'s oldest spiritual tradition.',
+  openGraph: {
+    title: 'Shinto: The Way of the Kami',
+    description: 'A living tradition of harmony with nature and spirit. Explore Japan\'s oldest spiritual tradition.',
+    url: siteUrl,
+    siteName: 'Shinto: The Way of the Kami',
+    images: [{ url: '/social.jpg', width: 1200, height: 630, alt: 'Shinto: The Way of the Kami' }],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Shinto: The Way of the Kami',
+    description: 'A living tradition of harmony with nature and spirit.',
+    images: ['/social.jpg'],
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/social.jpg',
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Shinto',
+  },
 }
 
 export default function RootLayout({
