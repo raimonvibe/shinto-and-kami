@@ -17,9 +17,10 @@ const inter = Inter({
   display: 'swap',
 })
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || ''
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Shinto: The Way of the Kami',
   description:
     'A living tradition of harmony with nature and spirit. Explore Japan\'s oldest spiritual tradition.',
@@ -39,7 +40,6 @@ export const metadata: Metadata = {
     images: ['/social.jpg'],
   },
   icons: {
-    icon: '/favicon.ico',
     apple: '/social.jpg',
   },
   appleWebApp: {
@@ -56,6 +56,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${notoSerif.variable} ${inter.variable}`}>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="32x32" type="image/x-icon" />
+      </head>
       <body className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-1">{children}</main>
