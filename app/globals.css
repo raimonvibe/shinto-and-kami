@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --green: #40916C;
+  --mountain-mist: #E8EDF2;
+  --gold: #F0C040;
+  --deep-indigo: #2D2D6B;
+  --torii-red: #C0392B;
+  --cream: #FAFAF8;
+}
+
+body {
+  @apply font-sans text-gray-800 antialiased;
+}
+
+/* Sakura petal animation keyframes */
+@keyframes float-sakura {
+  0%, 100% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 0.8;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0.3;
+  }
+}
+
+.animate-sakura {
+  animation: float-sakura 15s linear infinite;
+  pointer-events: none;
+}
