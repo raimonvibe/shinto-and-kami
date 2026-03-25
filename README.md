@@ -2,6 +2,8 @@
 
 **Live Website:** [https://shinto-and-kami.vercel.app/]
 
+![Shinto and Kami](kami.png)
+
 ------------------------------------------------------------------------
 
 ## Overview
